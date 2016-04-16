@@ -122,13 +122,15 @@ autoscaling_enter_standby() {
             msg "Failed to reduce ASG $asg_name's minimum size to $new_min. Cannot put this instance into Standby."
             return 1
         fi
+	echo "nothing to do"
     fi
 
     msg "Putting instance $instance_id into Standby"
     $AWS_CLI autoscaling enter-standby \
         --instance-ids $instance_id \
-        --auto-scaling-group-name $asg_name \
-        --should-decrement-desired-capacity
+        --auto-scaling-group-name $asg_name 
+#\
+#        --should-decrement-desired-capacity
     if [ $? != 0 ]; then
         msg "Failed to put instance $instance_id into Standby for ASG $asg_name."
         return 1
